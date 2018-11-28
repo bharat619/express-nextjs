@@ -9,17 +9,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Paper from "@material-ui/core/Paper";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import Checkbox from "@material-ui/core/Checkbox";
-import Button from "@material-ui/core/Button";
-import { performSignUp } from "../controller/SignUp";
-import router from "next/router";
-import cookie from "js-cookie";
 import axios from "axios";
 const styles = theme => ({
   root: {
@@ -88,17 +77,6 @@ class NavBar extends React.Component {
     password2: ""
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { email, password, password2 } = this.state;
-    const token = performSignUp(email, password, password2);
-    cookie.set("token", token, {
-      path: "/",
-      expires: 1
-    });
-    axios.get("/second");
-  };
-
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -129,7 +107,7 @@ class NavBar extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              Login to check your mail
+              Welcome
             </Typography>
             {auth && (
               <div>
@@ -162,61 +140,6 @@ class NavBar extends React.Component {
             )}
           </Toolbar>
         </AppBar>
-        <main className={classes.main}>
-          <CssBaseline />
-          <Paper className={classes.paper}>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form onSubmit={this.handleSubmit}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email Address</InputLabel>
-                <Input
-                  onChange={this.handleChange}
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Password</InputLabel>
-                <Input
-                  onChange={this.handleChange}
-                  name="password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  onChange={this.handleChange}
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Re-enter Password</InputLabel>
-                <Input
-                  onChange={this.handleChange}
-                  name="password2"
-                  type="password"
-                  id="password2"
-                  autoComplete="current-password"
-                />
-              </FormControl>
-              <br />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign up
-              </Button>
-            </form>
-          </Paper>
-        </main>
       </div>
     );
   }

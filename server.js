@@ -2,10 +2,10 @@ import express from "express";
 import next from "next";
 import dotenv from "dotenv";
 import models from "./models";
-import jwt from "express-jwt";
+import currentUser from "./lib/middleware";
 
 dotenv.config();
-console.log(process.env.AUTH_SECRET);
+
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 8000;
 const URL = process.env.ROOT_URL || `http://localhost:${port}`;
@@ -15,6 +15,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+
+  server.use(currentUser);
   server.get("*", (req, res) => {
     handle(req, res);
   });
